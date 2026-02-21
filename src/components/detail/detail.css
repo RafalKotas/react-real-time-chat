@@ -1,0 +1,113 @@
+.detail {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .user {
+        padding: 30px 20px;
+        display: flex;
+        flex-direction: column;
+        flex: 3;
+        align-items: center;
+        gap: 15px;
+        border-bottom: 1px solid rgba(128, 101, 101, 0.5);
+        
+        img[src="./Letter-A-icon.png"] {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    }
+
+    .info {
+        height: 100%;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        flex: 7;
+        gap: 30px;
+
+        .title {
+            svg {
+                background-color: rgba(128, 101, 101, 0.5);
+                padding: 10px;
+                border-radius: 50%;
+                cursor: pointer;
+            }
+        }
+
+        .option {
+
+            .title {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .photos {
+                margin-top: 20px;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+
+                .photoItem {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 20px;
+
+                    .photoDetail {
+                        img {
+                            width: 40px;
+                            height: 40px;
+                            border-radius: 5px;
+                            object-fit: cover;
+                        }
+
+                        span {
+                            font-size: 14px;
+                            color: rgb(74, 39, 80);
+                            font-weight: 300;
+                        }
+                    }
+
+                    .download,
+                    svg.download {
+                        width: 20px;
+                        height: 20px;
+                        background-color: rgba(128, 101, 101, 0.5);
+                        border-radius: 50%;
+                        padding: 10px;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            &:nth-child(3) .photos {
+                max-height: 240px;
+                overflow: scroll;
+            }
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: rgba(128, 101, 101, 0.5);
+            color: rgb(74, 39, 80);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgb(74, 39, 80);
+                color: rgba(128, 101, 101, 0.5);
+            }
+
+            &.logout {
+                padding: 10px 20px;
+                background-color: rgb(255, 239, 182);
+            }
+        }
+    }
+}

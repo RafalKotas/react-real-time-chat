@@ -1,0 +1,112 @@
+.custom-emoji-picker {
+    position: absolute;
+    bottom: 30px;
+    left: 0px;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 460px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.emoji-tabs {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #f8f9fa;
+    padding: 4px;
+    gap: 2px;
+    overflow: scroll;
+}
+
+.emoji-tab {
+    background: none;
+    border: none;
+    font-size: 20px;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emoji-tab:hover {
+    background-color: #e9ecef;
+}
+
+.emoji-tab.active {
+    background-color: white;
+    border-bottom: 2px solid #0084ff;
+}
+
+.emoji-content {
+    padding: 12px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.emoji-category-title {
+    font-size: 12px;
+    color: #65676b;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.emoji-group {
+    margin-bottom: 14px;
+}
+
+.emoji-group:last-child {
+    margin-bottom: 0;
+}
+
+.emoji-group-header {
+    font-size: 11px;
+    color: #8a8d91;
+    font-weight: 500;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #e4e6eb;
+    text-transform: capitalize;
+    letter-spacing: 0.3px;
+}
+
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.emoji-button {
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+}
+
+.emoji-button:hover {
+    background-color: #f0f0f0;
+}
+
+.emoji-button:active {
+    background-color: #e0e0e0;
+    transform: scale(0.95);
+}
+

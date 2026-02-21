@@ -1,0 +1,49 @@
+.tooltip-container {
+    position: relative;
+    overflow: visible;
+}
+
+.tooltip-children {
+    position: relative;
+    overflow: visible;
+}
+
+.tooltip {
+    position: absolute;
+    bottom: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: black;
+    padding: 6px 8px;
+    width: max-content;
+    min-width: max-content;
+    border-radius: 5px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opactity 0.3s ease;
+    overflow: visible;
+}
+
+.tooltip-children:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltip--portal {
+    height: fit-content;
+    border: 2px solid #111111;
+    background-color: #18a35e;
+    color: #001B23;
+    position: fixed;
+    z-index: 9999;
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltp::after {
+    content: '\25BC';
+    position: fixed;
+    top: 60%;
+    right: 50%;
+    color: black;
+}
