@@ -1,97 +1,122 @@
 .detail {
     flex: 1;
-    width: 100%;
+    min-width: 0;
+    min-height: 0;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 
     .user {
+        flex-shrink: 0;
         padding: 30px 20px;
         display: flex;
         flex-direction: column;
-        flex: 3;
         align-items: center;
         gap: 15px;
         border-bottom: 1px solid rgba(128, 101, 101, 0.5);
         
-        img[src="./Letter-A-icon.png"] {
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        img {
             width: 50px;
             height: 50px;
             border-radius: 50%;
+            border: 1px solid black;
             object-fit: cover;
         }
     }
 
     .info {
-        height: 100%;
+        flex: 1;
+        min-height: 0;
         padding: 20px;
         display: flex;
         flex-direction: column;
-        flex: 7;
-        gap: 30px;
+        justify-content: space-between;
+        gap: 10px;
+        overflow: hidden;
+    }
+
+    .title {
+        svg {
+            background-color: rgba(128, 101, 101, 0.5);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    }
+
+    .option {
 
         .title {
-            svg {
-                background-color: rgba(128, 101, 101, 0.5);
-                padding: 10px;
-                border-radius: 50%;
-                cursor: pointer;
-            }
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .option {
+        .photos {
+            margin-top: 20px;
+            overflow: scroll;
+            gap: 20px;
 
-            .title {
+            .photoItem {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-            }
-
-            .photos {
-                margin-top: 20px;
-                display: flex;
-                flex-direction: column;
                 gap: 20px;
+                cursor: pointer;
 
-                .photoItem {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    gap: 20px;
-
-                    .photoDetail {
-                        img {
-                            width: 40px;
-                            height: 40px;
-                            border-radius: 5px;
-                            object-fit: cover;
-                        }
-
-                        span {
-                            font-size: 14px;
-                            color: rgb(74, 39, 80);
-                            font-weight: 300;
-                        }
+                .photoDetail {
+                    img {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 5px;
+                        object-fit: cover;
                     }
 
-                    .download,
-                    svg.download {
-                        width: 20px;
-                        height: 20px;
-                        background-color: rgba(128, 101, 101, 0.5);
-                        border-radius: 50%;
-                        padding: 10px;
-                        cursor: pointer;
+                    span {
+                        font-size: 14px;
+                        color: rgb(74, 39, 80);
+                        font-weight: 300;
                     }
                 }
-            }
 
-            &:nth-child(3) .photos {
-                max-height: 240px;
-                overflow: scroll;
+                .download,
+                svg.download {
+                    width: 20px;
+                    height: 20px;
+                    background-color: rgba(128, 101, 101, 0.5);
+                    border-radius: 50%;
+                    padding: 10px;
+                    cursor: pointer;
+                }
             }
         }
 
-        button {
+        &:nth-child(3) .photos {
+
+            max-height: 120px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            overflow: scroll;
+        }
+    }
+
+    .info .detail-buttons-container {
+        flex-shrink: 0;
+        margin-top: auto; /* takes all the remaining space */
+        display: flex;
+        flex-direction: column;
+        align-content: flex-end;
+        gap: 10px;
+    }
+
+    .info button {
             padding: 10px 20px;
             background-color: rgba(128, 101, 101, 0.5);
             color: rgb(74, 39, 80);
@@ -99,9 +124,32 @@
             border-radius: 5px;
             cursor: pointer;
 
-            &:hover {
-                background-color: rgb(74, 39, 80);
-                color: rgba(128, 101, 101, 0.5);
+            &.blocked-current-user {
+                background-color: rgb(235, 128, 10);
+                color: rgb(3, 10, 3);
+                font-weight: 600;
+            }
+
+            &.blocked-receiver-hovered {
+                background-color: rgb(119, 235, 10);
+                color: rgb(31, 61, 32);
+                font-weight: 600;
+            }
+
+            &.blocked-receiver {
+                background-color: rgb(235, 128, 10);
+                color: rgb(3, 10, 3);
+            }
+
+            &.block-user-hovered {
+                background-color: rgb(195, 197, 47);
+                color: rgb(3, 35, 5);
+                font-weight: 600;
+            }
+
+            &.block-user {
+                background-color: rgb(150, 150, 139);
+                color: rgb(18, 35, 19);
             }
 
             &.logout {
@@ -109,5 +157,4 @@
                 background-color: rgb(255, 239, 182);
             }
         }
-    }
 }
