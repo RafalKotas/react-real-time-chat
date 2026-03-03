@@ -1,0 +1,95 @@
+.gallery {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(70, 73, 69, 0.8);
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+
+    .gallery-header {
+        position: relative;
+        padding: 20px;
+        border-bottom: 1px solid rgba(128, 101, 101, 0.5);
+        min-height: 60px;
+        box-sizing: border-box;
+
+        h2 {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            margin: 0;
+            text-align: center;
+            font-size: 35px;
+            font-weight: 500;
+            color: rgb(124, 229, 81);
+            padding: 0 44px;
+        }
+
+        .gallery-close {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .gallery-close svg {
+            width: 20px;
+            height: 20px;
+            background-color: rgba(128, 101, 101, 0.5);
+            padding: 10px;
+            border-radius: 50%;
+        }
+    }
+
+    .gallery-content {  
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+
+        .gallery-image-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-image {
+            max-width: 72%;
+            max-height: 72%;
+        }
+
+        .gallery-image-navigation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .gallery-image-navigation-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            background-color: rgb(124, 229, 81);
+            border: 1px solid black;
+            margin: 0 10px;
+            padding: 20px;
+            border-radius: 50%;
+            font-size: 20px;
+        }   
+    }
+}
