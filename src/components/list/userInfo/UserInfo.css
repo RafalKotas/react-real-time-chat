@@ -28,4 +28,13 @@
             cursor: pointer;
         }
     }
+
+    .logout {
+        padding: 10px 20px;
+        background-color: rgb(255, 239, 182);
+        color: rgb(74, 39, 80);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 }

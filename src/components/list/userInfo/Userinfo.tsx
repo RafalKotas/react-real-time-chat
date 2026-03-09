@@ -2,10 +2,22 @@ import "./userInfo.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEdit, faEllipsis, faVideo } from "@fortawesome/free-solid-svg-icons"
 import { useUserStore } from "../../../lib/userStore";
+import { useChatStore } from "../../../lib/chatStore";
+import { logout } from "../../../lib/api/auth";
+import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 const Userinfo = () => {
 
     const {user: currentUser} = useUserStore();
+    const { chatId } = useChatStore();
+
+    console.log(chatId);
+
+    const handleLogout = () => {
+        logout();
+        useUserStore.setState({ user: null });
+        useChatStore.getState().resetChat();
+    };
 
     return (
         <div className='userInfo'>
@@ -18,6 +30,9 @@ const Userinfo = () => {
                 <FontAwesomeIcon icon={faVideo} />
                 <FontAwesomeIcon icon={faEdit} />
             </div>
+            {chatId == null && <button className="logout" onClick={handleLogout}>
+                <FontAwesomeIcon icon={faArrowRightFromBracket} /> Logout
+            </button>}
         </div>
     )
 }
