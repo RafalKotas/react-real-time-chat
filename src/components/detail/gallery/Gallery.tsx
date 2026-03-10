@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { faArrowLeft, faArrowRight, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import "./gallery.css";
-import { useState } from "react";
+
 import Tooltip from "@components/chat/customEmojiPicker/Tooltip";
 
 const Gallery = ({setGalleryMode, chatImages, initialGalleryImageIndex}: {setGalleryMode: (galleryMode: boolean) => void, chatImages: string[], initialGalleryImageIndex: number}) => {
