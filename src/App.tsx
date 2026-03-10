@@ -3,6 +3,7 @@ import Chat from "./components/chat/Chat";
 import Detail from "./components/detail/Detail";
 import Login from "./components/login/Login";
 import Notification from "./components/notification/Notification";
+import { PollProvider } from "./lib/pollContext";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import { useUserStore } from "./lib/userStore";
@@ -28,11 +29,11 @@ function App() {
     <div className='container'>
       { 
         currentUser ? (
-          <>
+          <PollProvider>
             <List/>
             {chatId && <Chat/>}
             {chatId && <Detail/>}
-          </>
+          </PollProvider>
         ) : (
         <Login />
       )}

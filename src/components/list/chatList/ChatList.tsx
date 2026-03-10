@@ -7,6 +7,7 @@ import AddUser from "./addUser/AddUser";
 import { useUserStore } from "../../../lib/userStore";
 import type { UserData } from "../../../lib/userStore";
 import { useChatStore } from "../../../lib/chatStore";
+import { usePollTick } from "../../../lib/pollContext";
 import { getMyChats, markChatSeen } from "../../../lib/api/chats";
 import type { ApiChatListItem } from "../../../lib/api/types";
 import Tooltip from "../../chat/customEmojiPicker/Tooltip";
@@ -54,14 +55,13 @@ function mapApiChatToChatItem(entry: ApiChatListItem): ChatItem {
   };
 }
 
-const POLL_INTERVAL_MS = 3000;
-
 const ChatList = () => {
   const [chats, setChats] = useState<ChatItem[]>([]);
   const [addMode, setAddMode] = useState(false);
 
   const { user: currentUser } = useUserStore();
   const { changeChat, chatId, updateChatUser } = useChatStore();
+  const pollTick = usePollTick();
   const currentUserId = currentUser?.id ?? "";
 
   const loadChats = useCallback(async () => {
@@ -69,7 +69,7 @@ const ChatList = () => {
     try {
       const list = await getMyChats();
       const items = list.map((entry) => mapApiChatToChatItem(entry));
-      const sortedDesc = items.sort((a, b) => b.updatedAt - a.updatedAt);
+      const sortedDesc = [...items].sort((a, b) => b.updatedAt - a.updatedAt);
       setChats(sortedDesc);
       if (chatId) {
         const selected = sortedDesc.find((c) => c.chatId === chatId);
@@ -82,9 +82,7 @@ const ChatList = () => {
 
   useEffect(() => {
     loadChats();
-    const t = setInterval(loadChats, POLL_INTERVAL_MS);
-    return () => clearInterval(t);
-  }, [loadChats]);
+  }, [loadChats, pollTick]);
 
   const handleSelectChat = async (chat: ChatItem) => {
     if (!currentUser?.id) return;

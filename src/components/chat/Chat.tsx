@@ -17,6 +17,7 @@ import { useUserStore } from "../../lib/userStore";
 import type { ChangeEvent } from "react";
 import uploadFile from "../../lib/upload";
 import Tooltip from "./customEmojiPicker/Tooltip";
+import { usePollTick } from "../../lib/pollContext";
 import { getChatMessages, sendMessage } from "../../lib/api/chats";
 import { getUser } from "../../lib/api/users";
 import type { ApiMessage } from "../../lib/api/types";
@@ -98,7 +99,7 @@ const Chat = () => {
       }));
       setMessages(mapped);
 
-      const imageUrls = list.map(getMessageImageUrl).filter((url): url is string => Boolean(url));
+      const imageUrls = list.map(getMessageImageUrl).filter((url): url is string => url != null && url !== "");
       changeChatImages(imageUrls);
     } catch (e) {
       console.error(e);
@@ -109,6 +110,8 @@ const Chat = () => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages.length]);
 
+  const pollTick = usePollTick();
+
   useEffect(() => {
     if (!chatId) {
       setMessages([]);
@@ -116,9 +119,7 @@ const Chat = () => {
       return;
     }
     loadMessages();
-    const t = setInterval(loadMessages, MESSAGE_POLL_MS);
-    return () => clearInterval(t);
-  }, [chatId, loadMessages, changeChatImages]);
+  }, [chatId, loadMessages, changeChatImages, pollTick]);
 
   useEffect(() => {
     if (!user?.id) return;
