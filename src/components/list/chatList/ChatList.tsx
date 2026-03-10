@@ -3,14 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect, useCallback } from "react";
 
 import "./chatList.css";
-import AddUser from "./addUser/AddUser";
-import { useUserStore } from "../../../lib/userStore";
-import type { UserData } from "../../../lib/userStore";
-import { useChatStore } from "../../../lib/chatStore";
-import { usePollTick } from "../../../lib/pollContext";
-import { getMyChats, markChatSeen } from "../../../lib/api/chats";
-import type { ApiChatListItem } from "../../../lib/api/types";
-import Tooltip from "../../chat/customEmojiPicker/Tooltip";
+import AddUser from "@components/list/chatList/addUser/AddUser";
+import { useUserStore } from "@lib/userStore";
+import type { UserData } from "@lib/userStore";
+import { useChatStore } from "@lib/chatStore";
+import { usePollTick } from "@lib/pollContext";
+import { getMyChats, markChatSeen } from "@lib/api/chats";
+import type { ApiChatListItem } from "@lib/api/types";
+import Tooltip from "@components/chat/customEmojiPicker/Tooltip";
 
 export type UserChatEntryStored = {
   chatId: string;

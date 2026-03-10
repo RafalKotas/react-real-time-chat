@@ -2,9 +2,9 @@ import { toast } from "react-toastify";
 import "./login.css";
 import { useState } from "react";
 import type { SubmitEvent, ChangeEvent } from "react";
-import { login, register, mapApiUserToUserData } from "../../lib/api";
-import { useUserStore } from "../../lib/userStore";
-import uploadFile from "../../lib/upload";
+import { login, register, mapApiUserToUserData } from "@lib/api";
+import { useUserStore } from "@lib/userStore";
+import uploadFile from "@lib/upload";
 
 type AvatarState = {
   file: File | null;

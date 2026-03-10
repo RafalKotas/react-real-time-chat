@@ -1,9 +1,9 @@
 import "./userInfo.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEdit, faEllipsis, faVideo, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons"
-import { useUserStore } from "../../../lib/userStore";
-import { useChatStore } from "../../../lib/chatStore";
-import { logout } from "../../../lib/api/auth";
+import { useUserStore } from "@lib/userStore";
+import { useChatStore } from "@lib/chatStore";
+import { logout } from "@lib/api/auth";
 
 const Userinfo = () => {
 

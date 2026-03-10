@@ -1,9 +1,9 @@
 import "./addUser.css";
-import type { UserData } from "../../../../lib/userStore";
-import { useUserStore } from "../../../../lib/userStore";
+import type { UserData } from "@lib/userStore";
+import { useUserStore } from "@lib/userStore";
 import { useState } from "react";
-import { searchByUsername } from "../../../../lib/api/users";
-import { createChat } from "../../../../lib/api/chats";
+import { searchByUsername } from "@lib/api/users";
+import { createChat } from "@lib/api/chats";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";

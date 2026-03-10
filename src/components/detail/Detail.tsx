@@ -7,15 +7,15 @@ import {
   faLockOpen,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useChatStore } from "../../lib/chatStore";
-import { useUserStore } from "../../lib/userStore";
-import { updateBlocked } from "../../lib/api/users";
-import { logout } from "../../lib/api/auth";
+import { useChatStore } from "@lib/chatStore";
+import { useUserStore } from "@lib/userStore";
+import { updateBlocked } from "@lib/api/users";
+import { logout } from "@lib/api/auth";
 import { useEffect, useState } from "react";
 import { faWarning } from "@fortawesome/free-solid-svg-icons";
-import Gallery from "./gallery/Gallery";
-import { getUser } from "../../lib/api/users";
-import { mapApiUserToUserData } from "../../lib/api/auth";
+import Gallery from "@components/detail/gallery/Gallery";
+import { getUser } from "@lib/api/users";
+import { mapApiUserToUserData } from "@lib/api/auth";
 
 type CurrentSection =
   | "chat-settings"

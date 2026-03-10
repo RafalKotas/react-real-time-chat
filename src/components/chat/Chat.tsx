@@ -11,17 +11,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef, useEffect, useState, useCallback, memo } from "react";
-import CustomEmojiPicker from "./customEmojiPicker/CustomEmojiPicker";
-import { useChatStore } from "../../lib/chatStore";
-import { useUserStore } from "../../lib/userStore";
+import CustomEmojiPicker from "@components/chat/customEmojiPicker/CustomEmojiPicker";
+import { useChatStore } from "@lib/chatStore";
+import { useUserStore } from "@lib/userStore";
 import type { ChangeEvent } from "react";
-import uploadFile from "../../lib/upload";
-import Tooltip from "./customEmojiPicker/Tooltip";
-import { usePollTick } from "../../lib/pollContext";
-import { getChatMessages, sendMessage } from "../../lib/api/chats";
-import { getUser } from "../../lib/api/users";
-import type { ApiMessage } from "../../lib/api/types";
-import { getMessageImageUrl } from "../../lib/api/types";
+import uploadFile from "@lib/upload";
+import Tooltip from "@components/chat/customEmojiPicker/Tooltip";
+import { usePollTick } from "@lib/pollContext";
+import { getChatMessages, sendMessage } from "@lib/api/chats";
+import { getUser } from "@lib/api/users";
+import type { ApiMessage } from "@lib/api/types";
+import { getMessageImageUrl } from "@lib/api/types";
 
 interface ImageData {
   url: string;
