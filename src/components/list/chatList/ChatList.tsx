@@ -116,18 +116,36 @@ const ChatList = () => {
           </Tooltip>
         )}
       </div>
-      {chats.map((chat) => (
-        <div
+      {chats.map((chat) => {
+        const hasUnread = (chat.unreadCount ?? 0) > 0;
+        const isCurrentChat = chat.chatId === chatId;
+        const lastMessageIsMine = chat.lastMessageSenderId === currentUserId;
+        const showUnreadStyle = hasUnread && !isCurrentChat && !lastMessageIsMine;
+        let backgroundColor = "transparent";
+        if (!isCurrentChat && showUnreadStyle) {
+          backgroundColor = "rgb(12, 22, 86)";
+        }
+
+        return (
+        <button
+          type="button"
           className="chat-list-item"
           key={chat.chatId}
           onClick={() => handleSelectChat(chat)}
           style={{
-            backgroundColor: (chat.unreadCount ?? 0) > 0 ? "rgb(12, 22, 86)" : "transparent",
-            color: (chat.unreadCount ?? 0) > 0 ? "" : "rgb(31, 61, 32)",
+            backgroundColor,
+            color: showUnreadStyle ? "" : "rgb(31, 61, 32)",
+            border: "none",
+            padding: 0,
+            margin: 0,
+            font: "inherit",
+            cursor: "pointer",
+            width: "100%",
+            textAlign: "left",
           }}
         >
           <div className="chat-list-item-image">
-            {(chat.unreadCount ?? 0) > 0 && chat.chatId !== chatId && (
+            {showUnreadStyle && (
               <div className="messages-not-seen-indicator">
                 {chat.unreadCount! > 0 && <span>{chat.unreadCount}</span>}
               </div>
@@ -137,7 +155,7 @@ const ChatList = () => {
           <div className="texts">
             <span
               style={{
-                color: (chat.unreadCount ?? 0) > 0 ? "cyan" : "rgb(7, 10, 206)",
+                color: showUnreadStyle ? "cyan" : "rgb(7, 10, 206)",
                 fontWeight: "bold",
               }}
             >
@@ -146,7 +164,7 @@ const ChatList = () => {
             <p
               style={{
                 color:
-                  (chat.unreadCount ?? 0) > 0 ? "rgb(255, 255, 255)" : "rgb(31, 61, 32)",
+                  showUnreadStyle ? "rgb(255, 255, 255)" : "rgb(31, 61, 32)",
               }}
             >
               {chat.lastMessageSenderId === currentUserId ? (
@@ -165,8 +183,9 @@ const ChatList = () => {
               ) : null}
             </p>
           </div>
-        </div>
-      ))}
+        </button>
+        );
+      })}
 
       {addMode && <AddUser setAddMode={setAddMode} onAdded={loadChats} />}
     </div>
