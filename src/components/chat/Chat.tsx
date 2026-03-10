@@ -10,7 +10,7 @@ import {
   faVideo,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useEffect, useState, useCallback, memo } from "react";
 import CustomEmojiPicker from "./customEmojiPicker/CustomEmojiPicker";
 import { useChatStore } from "../../lib/chatStore";
 import { useUserStore } from "../../lib/userStore";
@@ -35,7 +35,43 @@ export interface ChatMessage {
   img?: string;
 }
 
-const MESSAGE_POLL_MS = 2500;
+
+interface EmojiPickerTriggerProps {
+  showEmojiPicker: boolean;
+  setShowEmojiPicker: (v: boolean | ((prev: boolean) => boolean)) => void;
+  onEmojiClick: (emoji: string) => void;
+  isCurrentUserBlocked: boolean;
+}
+
+const EmojiPickerTrigger = memo(function EmojiPickerTrigger({
+  showEmojiPicker,
+  setShowEmojiPicker,
+  onEmojiClick,
+  isCurrentUserBlocked,
+}: EmojiPickerTriggerProps) {
+  const stableOnEmojiClick = useCallback(
+    (emoji: string | undefined) => {
+      if (emoji != null) onEmojiClick(emoji);
+    },
+    [onEmojiClick]
+  );
+
+  return (
+    <>
+      <FontAwesomeIcon
+        icon={faSmile}
+        style={{
+          cursor: isCurrentUserBlocked ? "not-allowed" : "pointer",
+          opacity: isCurrentUserBlocked ? 0.5 : 1,
+        }}
+        onClick={() => setShowEmojiPicker((prev) => !prev)}
+      />
+      {showEmojiPicker && (
+        <CustomEmojiPicker onEmojiClick={stableOnEmojiClick} />
+      )}
+    </>
+  );
+});
 
 const Chat = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -104,9 +140,9 @@ const Chat = () => {
     };
   }, [user?.id, updateChatUser]);
 
-  const handleEmojiClick = (emoji: string) => {
+  const handleEmojiClick = useCallback((emoji: string) => {
     setMessage((prev) => prev + emoji);
-  };
+  }, []);
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -157,26 +193,6 @@ const Chat = () => {
       console.error(error);
     }
   };
-
-  function EmojiPicker() {
-    return (
-      <>
-        <FontAwesomeIcon
-          icon={faSmile}
-          style={{
-            cursor: isCurrentUserBlocked ? "not-allowed" : "pointer",
-            opacity: isCurrentUserBlocked ? 0.5 : 1,
-          }}
-          onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-        />
-        {showEmojiPicker && (
-          <CustomEmojiPicker
-            onEmojiClick={(emoji) => handleEmojiClick(emoji as string)}
-          />
-        )}
-      </>
-    );
-  }
 
   const createMsgTimeMarker = (createdAt: ChatMessage["createdAt"]) => {
     const msgDate = typeof createdAt === "string" ? new Date(createdAt) : createdAt;
@@ -299,10 +315,20 @@ const Chat = () => {
 
         <div className="emoji" style={{ position: "relative" }}>
           {showEmojiPicker ? (
-            <EmojiPicker />
+            <EmojiPickerTrigger
+              showEmojiPicker={showEmojiPicker}
+              setShowEmojiPicker={setShowEmojiPicker}
+              onEmojiClick={handleEmojiClick}
+              isCurrentUserBlocked={!!isCurrentUserBlocked}
+            />
           ) : (
             <Tooltip label="Open emoji picker">
-              <EmojiPicker />
+              <EmojiPickerTrigger
+                showEmojiPicker={showEmojiPicker}
+                setShowEmojiPicker={setShowEmojiPicker}
+                onEmojiClick={handleEmojiClick}
+                isCurrentUserBlocked={!!isCurrentUserBlocked}
+              />
             </Tooltip>
           )}
         </div>
