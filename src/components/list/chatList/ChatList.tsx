@@ -89,6 +89,22 @@ const ChatList = () => {
   const handleSelectChat = async (chat: ChatItem) => {
     if (!currentUser?.id) return;
     try {
+      const previousChatId = chatId;
+
+      if (previousChatId && chat.chatId !== previousChatId) {
+        setChats((prev) =>
+          prev.map((c) =>
+            c.chatId === previousChatId ? { ...c, unreadCount: 0 } : c
+          )
+        );
+      }
+
+      if (previousChatId && chat.chatId !== previousChatId) {
+        const previousChat = chats.find((c) => c.chatId === previousChatId);
+        if (previousChat?.latestMessageId) {
+          await markChatSeen(previousChatId, previousChat.latestMessageId);
+        }
+      }
       if (chat.latestMessageId) {
         await markChatSeen(chat.chatId, chat.latestMessageId);
       }
