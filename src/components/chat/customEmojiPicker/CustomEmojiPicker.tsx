@@ -1,5 +1,5 @@
 import "./CustomEmojiPicker.css"
-import { useState } from "react"
+import { memo, useState } from "react"
 import { categories, getCategoryEmojis, toEmojiItem } from "./emoji-icons"
 import Tooltip from "./Tooltip"
 
@@ -7,7 +7,7 @@ interface CustomEmojiPickerProps {
     onEmojiClick: (emoji: string | undefined) => void;
 }
 
-const CustomEmojiPicker = ({ onEmojiClick }: CustomEmojiPickerProps) => {
+const CustomEmojiPicker = memo(function CustomEmojiPicker({ onEmojiClick }: CustomEmojiPickerProps) {
     const [activeCategory, setActiveCategory] = useState<string>("smiles");
 
     const activeCategoryData = categories.find(cat => cat.id === activeCategory) || categories[0];
@@ -56,7 +56,7 @@ const CustomEmojiPicker = ({ onEmojiClick }: CustomEmojiPickerProps) => {
             </div>
         </div>
     );
-};
+});
 
 export default CustomEmojiPicker;
 

@@ -13,6 +13,7 @@ interface ChatStore {
     changeBlock: () => void;
     changeChatImages: (chatImages: string[]) => void;
     updateChatUser: (userData: UserData) => void;
+    resetChat: () => void;
 }
 
 export const useChatStore = create<ChatStore>((set) => ({
@@ -72,5 +73,15 @@ export const useChatStore = create<ChatStore>((set) => ({
             isCurrentUserBlocked: blocked.includes(currentUser?.id ?? ""),
             isReceiverBlocked: Boolean(currentUser?.blocked?.includes(userData.id)),
         }));
+    },
+    resetChat: () => {
+        set({
+            chatId: null,
+            user: null,
+            blockedByUserId: null,
+            isCurrentUserBlocked: false,
+            isReceiverBlocked: false,
+            chatImages: [],
+        });
     },
 }));
