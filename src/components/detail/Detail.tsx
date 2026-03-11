@@ -1,21 +1,22 @@
 import "./detail.css";
+
+import { useEffect, useState } from "react";
 import {
   faArrowDown,
   faArrowRightFromBracket,
   faArrowUp,
   faLock,
   faLockOpen,
+  faWarning,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useChatStore } from "../../lib/chatStore";
-import { useUserStore } from "../../lib/userStore";
-import { updateBlocked } from "../../lib/api/users";
-import { logout } from "../../lib/api/auth";
-import { useEffect, useState } from "react";
-import { faWarning } from "@fortawesome/free-solid-svg-icons";
-import Gallery from "./gallery/Gallery";
-import { getUser } from "../../lib/api/users";
-import { mapApiUserToUserData } from "../../lib/api/auth";
+
+import { logout, mapApiUserToUserData } from "@lib/api/auth";
+import { useChatStore } from "@lib/chatStore";
+import { useUserStore } from "@lib/userStore";
+import { getUser, updateBlocked } from "@lib/api/users";
+
+import Gallery from "@components/detail/gallery/Gallery";
 
 type CurrentSection =
   | "chat-settings"
@@ -36,7 +37,7 @@ const Detail = () => {
     chatImages,
     updateChatUser,
   } = useChatStore();
-  const { user: currentUser, fetchUser } = useUserStore();
+  const { user: currentUser } = useUserStore();
   const [isBlockButtonHovered, setIsBlockButtonHovered] = useState(false);
   const [currentSection, setCurrentSection] = useState<CurrentSection>("chat-settings");
   const [galleryMode, setGalleryMode] = useState<boolean>(false);
@@ -163,40 +164,58 @@ const Detail = () => {
         <div className="option chat-settings">
           <div className="title">
             <span>Chat Settings</span>
-            <FontAwesomeIcon
-              icon={currentSection === "chat-settings" ? faArrowUp : faArrowDown}
+            <button
+              type="button"
+              className="section-toggle"
+              aria-label={currentSection === "chat-settings" ? "Collapse Chat Settings" : "Expand Chat Settings"}
               onClick={() =>
                 handleSectionClick(
                   currentSection === "chat-settings" ? "" : "chat-settings"
                 )
               }
-            />
+            >
+              <FontAwesomeIcon
+                icon={currentSection === "chat-settings" ? faArrowUp : faArrowDown}
+              />
+            </button>
           </div>
         </div>
         <div className="option privacy-help">
           <div className="title">
             <span>Privacy & help</span>
-            <FontAwesomeIcon
-              icon={currentSection === "privacy-help" ? faArrowUp : faArrowDown}
+            <button
+              type="button"
+              className="section-toggle"
+              aria-label={currentSection === "privacy-help" ? "Collapse Privacy & help" : "Expand Privacy & help"}
               onClick={() =>
                 handleSectionClick(
                   currentSection === "privacy-help" ? "" : "privacy-help"
                 )
               }
-            />
+            >
+              <FontAwesomeIcon
+                icon={currentSection === "privacy-help" ? faArrowUp : faArrowDown}
+              />
+            </button>
           </div>
         </div>
         <div className="option">
           <div className="title">
             <span>Shared photos</span>
-            <FontAwesomeIcon
-              icon={currentSection === "shared-photos" ? faArrowUp : faArrowDown}
+            <button
+              type="button"
+              className="section-toggle"
+              aria-label={currentSection === "shared-photos" ? "Collapse Shared photos" : "Expand Shared photos"}
               onClick={() =>
                 handleSectionClick(
                   currentSection === "shared-photos" ? "" : "shared-photos"
                 )
               }
-            />
+            >
+              <FontAwesomeIcon
+                icon={currentSection === "shared-photos" ? faArrowUp : faArrowDown}
+              />
+            </button>
           </div>
           {currentSection === "shared-photos" && (
             <div className="photos">
@@ -210,15 +229,16 @@ const Detail = () => {
                 </div>
               ) : (
                 chatImages.map((imageUrl, index) => (
-                  <div
-                    key={index}
+                  <button
+                    type="button"
+                    key={imageUrl}
                     className="photoItem"
                     onClick={() => handlePhotoClick(index)}
                   >
                     <div className="photoDetail">
                       <img src={imageUrl} alt="" />
                     </div>
-                  </div>
+                  </button>
                 ))
               )}
             </div>
@@ -227,14 +247,18 @@ const Detail = () => {
         <div className="option shared-files">
           <div className="title">
             <span>Shared Files</span>
-            <FontAwesomeIcon
-              icon={faArrowDown}
+            <button
+              type="button"
+              className="section-toggle"
+              aria-label="Expand Shared Files"
               onClick={() =>
                 handleSectionClick(
                   currentSection === "shared-files" ? "" : "shared-files"
                 )
               }
-            />
+            >
+              <FontAwesomeIcon icon={faArrowDown} />
+            </button>
           </div>
         </div>
         <div className="detail-buttons-container">

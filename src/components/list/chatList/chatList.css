@@ -43,13 +43,23 @@
         display: flex;
         align-items: center;
         gap: 20px;
-        padding: 15px;
+        padding: 10px;
         cursor: pointer;
-        border: 1px solid rgba(128, 101, 101, 0.5);
-        border-radius: 10px;
-        margin: 5px;
+        border: 1px solid rgba(128, 101, 101, 0.6);
+        border-radius: 12px;
+        margin: 3px 10px;
+        width: 95%;
+        box-sizing: border-box;
+        font: inherit;
+        text-align: left;
+        background-color: rgba(255, 255, 255, 0.08);
+    }
 
-        .chat-list-item-image {
+    .chat-list-item:hover {
+        background-color: rgba(255, 255, 255, 0.12);
+    }
+
+        .chat-list-item .chat-list-item-image {
             position: relative;
 
             img {
@@ -81,7 +91,7 @@
             }
         }
 
-        .texts {
+        .chat-list-item .texts {
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -99,5 +109,4 @@
                 word-break: break-word;
             }
         }
-    }
 }

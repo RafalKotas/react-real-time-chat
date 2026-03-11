@@ -8,11 +8,11 @@ type TooltipProps = {
     label?: string;
 }
 
-export default function Tooltip({ 
+export default function Tooltip({
     children,
-    label 
-}: TooltipProps) {
-    const triggerRef = useRef<HTMLDivElement>(null)
+    label,
+}: Readonly<TooltipProps>) {
+    const triggerRef = useRef<HTMLButtonElement>(null)
     const [isHovered, setIsHovered] = useState(false)
     const [rect, setRect] = useState<DOMRect | null>(null)
 
@@ -39,7 +39,7 @@ export default function Tooltip({
         return () => cancelAnimationFrame(rafId)
     }, [isHovered])
 
-    const handleMouseEnter = () => {
+    const showTooltip = () => {
         const el = triggerRef.current
         if (el) {
             setRect(el.getBoundingClientRect())
@@ -47,7 +47,7 @@ export default function Tooltip({
         }
     }
 
-    const handleMouseLeave = () => {
+    const hideTooltip = () => {
         setIsHovered(false)
         setRect(null)
     }
@@ -67,14 +67,18 @@ export default function Tooltip({
 
     return (
         <div className="tooltip-container">
-            <div
+            <button
+                type="button"
                 ref={triggerRef}
+                aria-label={label ?? "Emoji"}
                 className="tooltip-children"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
+                onMouseEnter={showTooltip}
+                onMouseLeave={hideTooltip}
+                onFocus={showTooltip}
+                onBlur={hideTooltip}
             >
                 {children}
-            </div>
+            </button>
             {tooltipContent &&
                 typeof document !== "undefined" &&
                 createPortal(tooltipContent, document.body)}

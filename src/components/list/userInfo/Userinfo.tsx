@@ -1,9 +1,11 @@
-import "./userInfo.css"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faEdit, faEllipsis, faVideo, faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons"
-import { useUserStore } from "../../../lib/userStore";
-import { useChatStore } from "../../../lib/chatStore";
-import { logout } from "../../../lib/api/auth";
+import { faArrowRightFromBracket, faEdit, faEllipsis, faVideo } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import "./userInfo.css";
+
+import { logout } from "@lib/api/auth";
+import { useChatStore } from "@lib/chatStore";
+import { useUserStore } from "@lib/userStore";
 
 const Userinfo = () => {
 

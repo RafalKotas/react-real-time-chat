@@ -1,5 +1,6 @@
 import "./chat.css";
 
+import { useRef, useEffect, useState, useCallback, memo, type ChangeEvent } from "react";
 import {
   faCamera,
   faImage,
@@ -10,18 +11,18 @@ import {
   faVideo,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRef, useEffect, useState, useCallback, memo } from "react";
-import CustomEmojiPicker from "./customEmojiPicker/CustomEmojiPicker";
-import { useChatStore } from "../../lib/chatStore";
-import { useUserStore } from "../../lib/userStore";
-import type { ChangeEvent } from "react";
-import uploadFile from "../../lib/upload";
-import Tooltip from "./customEmojiPicker/Tooltip";
-import { usePollTick } from "../../lib/pollContext";
-import { getChatMessages, sendMessage } from "../../lib/api/chats";
-import { getUser } from "../../lib/api/users";
-import type { ApiMessage } from "../../lib/api/types";
-import { getMessageImageUrl } from "../../lib/api/types";
+
+import { getChatMessages, sendMessage } from "@lib/api/chats";
+import type { ApiMessage } from "@lib/api/types";
+import { getMessageImageUrl } from "@lib/api/types";
+import { getUser } from "@lib/api/users";
+import { useChatStore } from "@lib/chatStore";
+import { usePollTick } from "@lib/pollContext";
+import uploadFile from "@lib/upload";
+import { useUserStore } from "@lib/userStore";
+
+import CustomEmojiPicker from "@components/chat/customEmojiPicker/CustomEmojiPicker";
+import Tooltip from "@components/chat/customEmojiPicker/Tooltip";
 
 interface ImageData {
   url: string;

@@ -1,12 +1,14 @@
-import "./addUser.css";
-import type { UserData } from "../../../../lib/userStore";
-import { useUserStore } from "../../../../lib/userStore";
-import { useState } from "react";
-import { searchByUsername } from "../../../../lib/api/users";
-import { createChat } from "../../../../lib/api/chats";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState, type SubmitEvent } from "react";
 import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from "react-toastify";
+
+import "./addUser.css";
+
+import { createChat } from "@lib/api/chats";
+import { searchByUsername } from "@lib/api/users";
+import { useUserStore } from "@lib/userStore";
+import type { UserData } from "@lib/userStore";
 
 const AddUser = ({
   setAddMode,
@@ -20,7 +22,7 @@ const AddUser = ({
 
   const { user: currentUser } = useUserStore();
 
-  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const username = (formData.get("username") as string)?.trim();
@@ -55,7 +57,7 @@ const AddUser = ({
     try {
       await createChat(user.id);
       setAddMode(false);
-      await onAdded?.();
+      onAdded?.();
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Failed to create chat";
       if (msg.toLowerCase().includes("already exists") || msg.toLowerCase().includes("exist")) {

@@ -39,6 +39,10 @@
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
+            border: none;
+            padding: 0;
+            font: inherit;
+            background: none;
         }
 
         .gallery-close svg {
