@@ -103,11 +103,11 @@ const Login = () => {
         <form onSubmit={handleSignUp}>
           <label htmlFor="file">
             <img
-              id="avatar-upload-placeholder"
-              src={avatar.url || "./user.png"}
-              alt="Avatar"
+                id="avatar-upload-placeholder"
+                src={avatar.url || "./user.png"}
+                alt="Avatar"
             />
-            Upload an Image
+            <span>Upload an Image</span>
           </label>
           <input
             disabled={signUpLoading}

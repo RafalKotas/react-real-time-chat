@@ -18,7 +18,8 @@ const uploadFile = async (file: File) => {
                 console.log("Upload is " + progress + "% done");
             },
             (error: unknown) => {
-                reject("Error uploading file: " + (error instanceof Error ? error.message : String(error)));
+                const message = error instanceof Error ? error.message : String(error);
+                reject(new Error("Error uploading file: " + message));
             },
             () => {
                 getDownloadURL(storageRef).then((url) => {

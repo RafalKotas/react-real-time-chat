@@ -11,14 +11,10 @@ const Gallery = ({setGalleryMode, chatImages, initialGalleryImageIndex}: {setGal
     const [currentImage, setCurrentImage] = useState(initialGalleryImageIndex);
 
     const handleChangeImage = (direction: "left" | "right") => {
-        if (direction === "left") {
-            if (currentImage !== 0) {
-                setCurrentImage(currentImage - 1);
-            }
-        } else {
-            if (currentImage !== chatImages.length - 1) {
-                setCurrentImage(currentImage + 1);
-            }
+        if (direction === "left" && currentImage !== 0) {
+            setCurrentImage(currentImage - 1);
+        } else if (direction === "right" && currentImage !== chatImages.length - 1) {
+            setCurrentImage(currentImage + 1);
         }
     }
     
@@ -26,9 +22,14 @@ const Gallery = ({setGalleryMode, chatImages, initialGalleryImageIndex}: {setGal
         <div className="gallery">
             <div className="gallery-header">
                 <h2>Gallery ({currentImage + 1} / {chatImages.length})</h2>
-                <span className="gallery-close" onClick={() => setGalleryMode(false)} role="button" aria-label="Close gallery">
+                <button
+                    type="button"
+                    className="gallery-close"
+                    onClick={() => setGalleryMode(false)}
+                    aria-label="Close gallery"
+                >
                     <FontAwesomeIcon icon={faXmark} />
-                </span>
+                </button>
             </div>
             <div className="gallery-content">
                 <button className="gallery-image-navigation-icon" disabled={currentImage === 0} onClick={() => handleChangeImage("left")}>

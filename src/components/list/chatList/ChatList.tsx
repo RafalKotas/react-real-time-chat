@@ -137,9 +137,11 @@ const ChatList = () => {
         const isCurrentChat = chat.chatId === chatId;
         const lastMessageIsMine = chat.lastMessageSenderId === currentUserId;
         const showUnreadStyle = hasUnread && !isCurrentChat && !lastMessageIsMine;
-        let backgroundColor = "transparent";
+        const style: React.CSSProperties = {
+          color: showUnreadStyle ? "" : "rgb(31, 61, 32)",
+        };
         if (!isCurrentChat && showUnreadStyle) {
-          backgroundColor = "rgb(12, 22, 86)";
+          style.backgroundColor = "rgb(12, 22, 86)";
         }
 
         return (
@@ -148,17 +150,7 @@ const ChatList = () => {
           className="chat-list-item"
           key={chat.chatId}
           onClick={() => handleSelectChat(chat)}
-          style={{
-            backgroundColor,
-            color: showUnreadStyle ? "" : "rgb(31, 61, 32)",
-            border: "none",
-            padding: 0,
-            margin: 0,
-            font: "inherit",
-            cursor: "pointer",
-            width: "100%",
-            textAlign: "left",
-          }}
+          style={style}
         >
           <div className="chat-list-item-image">
             {showUnreadStyle && (
