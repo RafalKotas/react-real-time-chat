@@ -42,3 +42,25 @@ export interface ApiChatWithMessages {
   id: string;
   messages: ApiMessage[];
 }
+
+export type ApiContactState =
+  | "none"
+  | "pending_sent"
+  | "pending_received"
+  | "accepted"
+  | "rejected";
+
+export interface ApiContactStatus {
+  contactState: ApiContactState;
+  rejectedDate?: string;
+}
+
+export interface ApiContact {
+  id: string;
+  requestSenderId: string;
+  requestRecipientId: string;
+  state: "PENDING" | "ACCEPTED" | "REJECTED";
+  createdAt: string;
+  updatedAt: string;
+  rejectedDate?: string | null;
+}
