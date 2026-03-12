@@ -30,3 +30,8 @@ body {
   border-radius: 10px;
   background-color: rgba(122, 186, 206, 0.75);
 }
+
+.feature-to-implement {
+  cursor: not-allowed!important;
+  opacity: 0.5!important;
+}

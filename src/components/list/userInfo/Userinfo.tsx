@@ -25,9 +25,9 @@ const Userinfo = () => {
                 <h2>{currentUser?.username}</h2>
             </div>
             <div className="icons">
-                <FontAwesomeIcon icon={faEllipsis} />
-                <FontAwesomeIcon icon={faVideo} />
-                <FontAwesomeIcon icon={faEdit} />
+                <FontAwesomeIcon className="feature-to-implement" icon={faEllipsis} />
+                <FontAwesomeIcon className="feature-to-implement" icon={faVideo} />
+                <FontAwesomeIcon className="feature-to-implement" icon={faEdit} />
             </div>
             {chatId == null && <button className="logout" onClick={handleLogout}>
                 <FontAwesomeIcon icon={faArrowRightFromBracket} /> Logout

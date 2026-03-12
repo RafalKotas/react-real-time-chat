@@ -4,7 +4,6 @@ import "./tooltip.css"
 
 type TooltipProps = {
     children: React.ReactElement;
-    /** CLDR short name (e.g. "grinning face") shown in the tooltip */
     label?: string;
 }
 
