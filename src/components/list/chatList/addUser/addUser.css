@@ -37,6 +37,9 @@
             height: 20px;
             cursor: pointer;
             border: 1px solid rgb(0, 66, 86);
+            &:hover {
+                background-color: red;
+            }
         }
     }
 
@@ -74,7 +77,7 @@
     }
 
     .user {
-        margin: 50px 5px 5px 5px;
+        margin: 25px 5px 5px 5px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -84,8 +87,9 @@
 
         .detail {
             display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            gap: 20px;
 
 
             img {
@@ -96,14 +100,70 @@
             }
         }
 
-        button {
-            padding: 10px;
+        .add-user-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .add-user-to-chat,
+        .add-user-contact-action {
+            padding: 10px 16px;
             border-radius: 10px;
             background-color: rgb(128, 101, 101);
             color: white;
             border: none;
             outline: none;
             cursor: pointer;
+            font: inherit;
         }
+
+        .add-user-to-chat:hover:not(:disabled),
+        .add-user-contact-action:hover:not(:disabled) {
+            background-color: rgb(100, 78, 78);
+        }
+
+        .add-user-contact-state {
+            padding: 6px 12px;
+            border-radius: 8px;
+            background-color: rgb(53, 86, 8);
+            font-size: 0.95em;
+            color: rgb(160, 214, 89);
+            display: flex;
+            justify-content: center;
+        }
+
+        .add-user-contact-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .add-user-contact-buttons button {
+            padding: 8px 14px;
+            border-radius: 8px;
+            color: white;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .add-user-contact-buttons button:nth-child(1) {
+            background-color: rgb(21, 83, 21);
+        }
+
+        .add-user-contact-buttons button:nth-child(1):hover {
+            background-color: rgb(42, 151, 42);
+        }
+
+        .add-user-contact-buttons button:nth-child(2) {
+            background-color: rgb(118, 22, 22);
+        }
+
+        .add-user-contact-buttons button:nth-child(2):hover {
+            background-color: rgb(223, 56, 56);
+        }
+
+
     }
 }
