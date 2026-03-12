@@ -12,10 +12,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { getContactStatus } from "@lib/api/contacts";
 import { getChatMessages, sendMessage } from "@lib/api/chats";
-import type { ApiMessage } from "@lib/api/types";
-import { getMessageImageUrl } from "@lib/api/types";
+import {
+  getMessageImageUrl,
+  type ApiMessage,
+  type ApiContactState,
+} from "@lib/api/types";
 import { getUser } from "@lib/api/users";
+import { toast } from "react-toastify";
 import { useChatStore } from "@lib/chatStore";
 import { usePollTick } from "@lib/pollContext";
 import uploadFile from "@lib/upload";
@@ -80,6 +85,8 @@ const Chat = () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [message, setMessage] = useState("");
   const [image, setImage] = useState<ImageData | null>(null);
+  const [contactState, setContactState] = useState<ApiContactState | null>(null);
+  const [sendLimitReached, setSendLimitReached] = useState(false);
 
   const { user: currentUser } = useUserStore();
   const { chatId, user, isCurrentUserBlocked, updateChatUser, changeChatImages } =
@@ -107,6 +114,15 @@ const Chat = () => {
     }
   }, [chatId, changeChatImages]);
 
+  const refreshContactStatus = useCallback(async (partnerId: string) => {
+    try {
+      const res = await getContactStatus(partnerId);
+      setContactState(res.contactState);
+    } catch {
+      setContactState(null);
+    }
+  }, []);
+
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages.length]);
@@ -119,8 +135,12 @@ const Chat = () => {
       changeChatImages([]);
       return;
     }
-    loadMessages();
-  }, [chatId, loadMessages, changeChatImages, pollTick]);
+    const run = async () => {
+      await loadMessages();
+      if (user?.id) refreshContactStatus(user.id);
+    };
+    run();
+  }, [chatId, loadMessages, changeChatImages, pollTick, user?.id, refreshContactStatus]);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -141,6 +161,37 @@ const Chat = () => {
       cancelled = true;
     };
   }, [user?.id, updateChatUser]);
+
+  useEffect(() => {
+    if (!user?.id) {
+      setContactState(null);
+      setSendLimitReached(false);
+      return;
+    }
+    let cancelled = false;
+    getContactStatus(user.id)
+      .then((res) => {
+        if (!cancelled) setContactState(res.contactState);
+      })
+      .catch(() => {
+        if (!cancelled) setContactState(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.id]);
+
+  useEffect(() => {
+    if (contactState === "accepted") setSendLimitReached(false);
+  }, [contactState]);
+
+  const messagesSentByMe = messages.filter((m) => m.senderId === currentUser?.id).length;
+  const isContact = contactState === "accepted";
+  const nonContactLimitReached =
+    contactState != null &&
+    !isContact &&
+    (messagesSentByMe >= 3 || sendLimitReached);
+  const inputBlocked = isCurrentUserBlocked || nonContactLimitReached;
 
   const handleEmojiClick = useCallback((emoji: string) => {
     setMessage((prev) => prev + emoji);
@@ -190,9 +241,21 @@ const Chat = () => {
 
       setImage(null);
       setMessage("");
+      setSendLimitReached(false);
       await loadMessages();
     } catch (error) {
       console.error(error);
+      const msg = error instanceof Error ? error.message : String(error);
+      const isLimitError =
+        /non-contact|message limit|NON_CONTACT_LIMIT/i.test(msg);
+      if (isLimitError) {
+        setSendLimitReached(true);
+        toast.error(
+          "Message limit reached. Ask them to accept your contact request to continue."
+        );
+      } else {
+        toast.error(msg || "Failed to send message");
+      }
     }
   };
 
@@ -233,9 +296,9 @@ const Chat = () => {
           </div>
         </div>
         <div className="icons">
-          <FontAwesomeIcon icon={faPhone} />
-          <FontAwesomeIcon icon={faVideo} />
-          <FontAwesomeIcon icon={faInfoCircle} />
+          <FontAwesomeIcon className="feature-to-implement" icon={faPhone} />
+          <FontAwesomeIcon className="feature-to-implement" icon={faVideo} />
+          <FontAwesomeIcon className="feature-to-implement" icon={faInfoCircle} />
         </div>
       </div>
 
@@ -265,15 +328,20 @@ const Chat = () => {
       </div>
 
       <div className="bottom">
+        {nonContactLimitReached && (
+          <p className="chat-limit-hint">
+            Message limit reached. Ask them to accept your contact request to continue.
+          </p>
+        )}
         <div className="icons">
-          <Tooltip label="Add image(device gallery)">
+          <Tooltip label="Add image (device gallery)">
             <>
               <label htmlFor="chat-image-input" style={{ cursor: "pointer" }}>
                 <FontAwesomeIcon
                   icon={faImage}
                   style={{
-                    cursor: isCurrentUserBlocked ? "not-allowed" : "pointer",
-                    opacity: isCurrentUserBlocked ? 0.5 : 1,
+                    cursor: inputBlocked ? "not-allowed" : "pointer",
+                    opacity: inputBlocked ? 0.5 : 1,
                   }}
                 />
               </label>
@@ -281,28 +349,22 @@ const Chat = () => {
                 id="chat-image-input"
                 type="file"
                 accept="image/*"
-                disabled={isCurrentUserBlocked}
+                disabled={inputBlocked}
                 style={{ display: "none" }}
                 onChange={handleImage}
               />
             </>
           </Tooltip>
-          <Tooltip label="Add image(device camera)">
+          <Tooltip label="Add image (device camera)">
             <FontAwesomeIcon
               icon={faCamera}
-              style={{
-                cursor: isCurrentUserBlocked ? "not-allowed" : "pointer",
-                opacity: isCurrentUserBlocked ? 0.5 : 1,
-              }}
+              className="feature-to-implement"
             />
           </Tooltip>
           <Tooltip label="Add voice message">
             <FontAwesomeIcon
               icon={faMicrophone}
-              style={{
-                cursor: isCurrentUserBlocked ? "not-allowed" : "pointer",
-                opacity: isCurrentUserBlocked ? 0.5 : 1,
-              }}
+              className="feature-to-implement"
             />
           </Tooltip>
         </div>
@@ -312,7 +374,8 @@ const Chat = () => {
           placeholder="Type your message here..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          disabled={isCurrentUserBlocked}
+          disabled={inputBlocked}
+          style={{ cursor: inputBlocked ? "not-allowed" : "text" }}
         />
 
         <div className="emoji" style={{ position: "relative" }}>
@@ -321,7 +384,7 @@ const Chat = () => {
               showEmojiPicker={showEmojiPicker}
               setShowEmojiPicker={setShowEmojiPicker}
               onEmojiClick={handleEmojiClick}
-              isCurrentUserBlocked={!!isCurrentUserBlocked}
+              isCurrentUserBlocked={!!inputBlocked}
             />
           ) : (
             <Tooltip label="Open emoji picker">
@@ -329,7 +392,7 @@ const Chat = () => {
                 showEmojiPicker={showEmojiPicker}
                 setShowEmojiPicker={setShowEmojiPicker}
                 onEmojiClick={handleEmojiClick}
-                isCurrentUserBlocked={!!isCurrentUserBlocked}
+                isCurrentUserBlocked={!!inputBlocked}
               />
             </Tooltip>
           )}
@@ -338,7 +401,8 @@ const Chat = () => {
         <button
           className="sendButton"
           onClick={handleSendMessage}
-          disabled={isCurrentUserBlocked}
+          disabled={inputBlocked}
+          style={{ cursor: inputBlocked ? "not-allowed" : "pointer" }}
         >
           Send
         </button>
