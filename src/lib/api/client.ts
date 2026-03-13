@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
+const BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/+$/, "");
 
 function getToken(): string | null {
   return localStorage.getItem("chat_token");
@@ -21,9 +21,10 @@ async function request<T>(
   options: RequestInit & { params?: Record<string, string> } = {}
 ): Promise<T> {
   const { params, ...init } = options;
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
   const url = params
-    ? `${BASE_URL}${path}?${new URLSearchParams(params).toString()}`
-    : `${BASE_URL}${path}`;
+    ? `${BASE_URL}${normalizedPath}?${new URLSearchParams(params).toString()}`
+    : `${BASE_URL}${normalizedPath}`;
 
   const token = getToken();
   const headers: Record<string, string> = {
@@ -32,6 +33,9 @@ async function request<T>(
   };
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
+  }
+  if (/ngrok-free\.(app|dev)/i.test(BASE_URL)) {
+    headers["ngrok-skip-browser-warning"] = "true";
   }
 
   const res = await fetch(url, { ...init, headers });

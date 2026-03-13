@@ -1,6 +1,6 @@
 import "./detail.css";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   faArrowDown,
   faArrowRightFromBracket,
@@ -25,8 +25,6 @@ type CurrentSection =
   | "shared-files"
   | "";
 
-const DETAIL_POLL_MS = 2500;
-
 const Detail = () => {
   const {
     chatId,
@@ -44,19 +42,6 @@ const Detail = () => {
   const [initialGalleryImageIndex, setInitialGalleryImageIndex] = useState<
     number | null
   >(null);
-
-  useEffect(() => {
-    if (!user?.id) return;
-    const fetchPartner = async () => {
-      const apiUser = await getUser(user.id);
-      if (apiUser) {
-        updateChatUser(mapApiUserToUserData(apiUser));
-      }
-    };
-    fetchPartner();
-    const interval = setInterval(fetchPartner, DETAIL_POLL_MS);
-    return () => clearInterval(interval);
-  }, [user?.id, updateChatUser]);
 
   const handleSectionClick = (section: CurrentSection) => {
     if (currentSection === section) {
