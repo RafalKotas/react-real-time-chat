@@ -1,7 +1,7 @@
 import { faArrowRightFromBracket, faEdit, faEllipsis, faVideo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import "./userInfo.css";
+import "./UserInfo.css";
 
 import { logout } from "@lib/api/auth";
 import { useChatStore } from "@lib/chatStore";
