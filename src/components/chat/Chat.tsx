@@ -101,7 +101,7 @@ const Chat = () => {
       const mapped: ChatMessage[] = list.map((m: ApiMessage) => ({
         id: m.id ?? "",
         senderId: m.sender ?? "",
-        text: m.text ?? (m as Record<string, unknown>).content ?? "",
+        text: m.text ?? (m as unknown as Record<string, unknown>).content ?? "",
         createdAt: m.createdAt ?? "",
         img: getMessageImageUrl(m),
       }));
@@ -227,7 +227,7 @@ const Chat = () => {
         {
           id: sent.id,
           senderId: sent.sender,
-          text: sent.text ?? (sent as Record<string, unknown>).content ?? "",
+          text: sent.text ?? (sent as unknown as Record<string, unknown>).content ?? "",
           createdAt: sent.createdAt ?? "",
           img: sentImgUrl,
         },
